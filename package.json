@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "bin": {
-    "current": "currentAdd.js",
-    "add": "commandAdd.js",
-    "sub": "commandSub.js",
+    "current": "currentDate.js",
     "startgame": "game.js"
   },
   "scripts": {

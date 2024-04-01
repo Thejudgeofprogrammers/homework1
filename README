@@ -1,9 +1,11 @@
 _______________________________
 |Задание 1                    |
 |                             |
-| currentAdd.js - $current    |
-| commandAdd.js - $add        |
-| commnadSub.js - $sub        |
+| currentDate.js              |
+|                             |
+|   $current                  |
+|   $current add              |
+|   $current sub              |
 |_____________________________|
 _______________________________
 |Задание 2                    |
