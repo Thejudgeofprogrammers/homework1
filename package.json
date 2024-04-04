@@ -1,0 +1,16 @@
+{
+  "name": "homework_path_fs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "game.js",
+  "bin": {
+    "game": "myGame.js",
+    "stats": "analys.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

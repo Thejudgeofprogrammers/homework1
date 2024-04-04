@@ -1,0 +1,9 @@
+Задание 1:
+  $ game ./<Имя json файла>
+  Пример:
+    $ game ./logs.json
+
+Задание 2:
+  $ stats ./<Имя json файла>
+  Пример: 
+    $ stats ./logs.json
