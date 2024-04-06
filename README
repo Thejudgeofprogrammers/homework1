@@ -1,0 +1,7 @@
+Для запроса погоды:
+
+  $ forecast < Место >
+
+  Пример:
+    $ forecast moscow
+    $ forecast london

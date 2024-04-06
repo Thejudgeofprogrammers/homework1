@@ -1,0 +1,19 @@
+{
+  "name": "http_lecture",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "forecast": "weather.js"
+  },
+  "scripts": {
+    "start": "node weather.js",
+    "dev": "node -r dotenv/config weather.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
