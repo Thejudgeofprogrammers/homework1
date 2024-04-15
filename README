@@ -1,0 +1,16 @@
+|  POST  | /api/user/login         | - Статично выводит данные
+
+|  GET   | /api/books              | - Выводит список книг
+
+|  GET   | /api/books/:id          | - Вывод книги по id
+
+|  POST  | /api/books              | - Создание книги
+
+|  POST  | /api/books/:id/upload   | - Загрузка книги по id
+
+|  PUT   | /api/books/:id          | - Редактировать книгу по id
+
+|  GET   | /api/books/:id/download | - Скачать книгу
+
+| DELETE | /api/books/:id          | - Удалить книгу по id
+
