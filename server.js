@@ -2,14 +2,20 @@ const express = require('express');
 require('dotenv').config();
 const logger = require('./middleware/logger');
 const error404 = require('./middleware/error-404');
+const bookroute = require('./routes/book');
 const indexrouter = require('./routes/router');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+
 app.use(logger);
-app.use('/', indexrouter);
+
+app.use('/', bookroute);
+app.use('/api/books', indexrouter);
+
 app.use('/public', express.static(__dirname + '/public'));
 app.use(error404);
 
