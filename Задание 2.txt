@@ -1,0 +1,13 @@
+2.3
+
+thejudgeofprogrammers@DESKTOP-DL3JOFS:~$ docker run -it --rm --name mynode -e NAME="Artem" -e SURNAME="Koshkin" node node -e "console.log('Привет,', process.env.NAME, process.env.SURNAME
+);"
+Привет, Artem Koshkin
+
+2.5
+
+thejudgeofprogrammers@DESKTOP-DL3JOFS:~$ docker rmi node
+Untagged: node:latest
+Untagged: node@sha256:bda531283f4bafd1cb1294493de89ae3c4cf55933da1470e46df970e77365e
+Deleted: sha256:9ed275c850471e0001d4ad5667891bfa0640e0c7631297f07ca7f885716a32
+...

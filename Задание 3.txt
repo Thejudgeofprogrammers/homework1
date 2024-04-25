@@ -1,0 +1,32 @@
+1.2 docker run -d --name second_node -v "$(pwd)/data:/var/first/data" node:latest tail -f /dev/null || Запуск
+1.3 docker run -d --name first_node -v "$(pwd)/data:/var/first/data" node:latest tail -f /dev/null  || Запуск
+1.4 docker exec -it first_node sh -c 'echo "Hello, my name is Artem" > /var/first/data/example.txt'
+
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~$ dir
+	data  get-docker.sh
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~$ cd data
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~/data$ dir
+	example.txt
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~/data$
+
+1.5 docker exec -it first_node sh -c 'echo "const name = Artem" > /var/first/data/index.js'
+	
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~$ dir
+	data  get-docker.sh
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~$ cd data
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~/data$ dir
+	example.txt  index.js
+	thejudgeofprogrammers@DESKTOP-DL3JOFS:~/data$
+
+1.6 thejudgeofprogrammers@DESKTOP-DL3JOFS:~
+	$ docker stop second_node second_node 
+    thejudgeofprogrammers@DESKTOP-DL3JOFS:~
+	$ docker rm second_node second_node
+    thejudgeofprogrammers@DESKTOP-DL3JOFS:~
+	$ docker run -d --name second_node -v /home/thejudgeofprogrammers/data:/var/second/data node:latest tail -f /dev/null
+		9895ca807a6a62cbf893457957704b5f49ffc9326bbe732e8a484dfdb2944217
+    thejudgeofprogrammers@DESKTOP-DL3JOFS:~
+	$ docker exec -it second_node sh -c 'ls /var/second/data && cat /var/second/data/*'
+		example.txt  index.js
+		Hello, my name is Artem
+		console.log()
