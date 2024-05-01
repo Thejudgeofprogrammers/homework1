@@ -1,0 +1,31 @@
+<form id="bookForm" method="POST" enctype="multipart/form-data" class="mt-5">
+  <div class="form-group">
+    <label for="inputTitle">Заголовок</label>
+    <input type="text" value="<%= book.title %>" name="title" class="form-control" id="inputTitle">
+  </div>
+
+  <div class="form-group">
+    <label for="inputdescription">Описание</label>
+    <textarea rows="3" name="description" class="form-control" id="inputdescription"><%= book.description %></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="inputAuthors">Автор</label>
+    <input type="text" value="<%= book.authors %>" name="authors" class="form-control" id="inputAuthors">
+  </div>
+
+  <div class="form-group">
+    <p>favorite: <input type="checkbox" name="favorite" <% if (book.favorite) { %> checked <% } %> ></p>
+  </div>
+
+  <div class="form-group">
+    <label for="fileInput">Выберите файл</label>
+    <input type="file" name="cover" id="fileInput">
+  </div>
+
+  <div class="form-group text-right">
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+  </div>
+</form>
+
+<!-- title, description, authors, favorite, fileCover, fileName, fileBook -->
