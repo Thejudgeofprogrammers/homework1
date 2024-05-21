@@ -3,9 +3,18 @@ services:
 
   website:
     build: ./website
+    container_name: website-website-1
     ports:
       - "3030:3000"
     command: npm run start
+    depends_on:
+      - mongodb
+  
+  # collection:
+  #   build: ./collection
+  #   ports:
+  #     - "5001:5001"
+  #   command: npm run start
 
   redis:
     image: redis:latest
@@ -25,3 +34,16 @@ services:
     depends_on:
       - redis
 
+  mongodb:
+    image: mongo
+    container_name: my_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+
+volumes:
+  mongodb_data:
+    driver: local

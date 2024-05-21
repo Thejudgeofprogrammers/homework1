@@ -1,40 +1,49 @@
 <%- include('../port/layout-start', {title: title}) %>
-<%- include('../port/menu') %>
+    <%- include('../port/menu') %>
 
-<h1><%= title %></h1>
+        <h1>
+            <%= title %>
+        </h1>
 
-<div class="row">
-    <div class="col-sm-8">
-        <div class="card">
-            <div class="card-body">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
 
-                <h5 class="card-title"><%= book.title %></h5>
-                <p class="card-text">Описание: <%= book.description %></p>
-                <p class="card-text">Автор: <%= book.authors %></p>
-                <p>favorite: <%= book.favorite ? 'true' : 'false' %></p>
-                
-                <% if (book.fileBook) { %>
-                  <a href="/api/books/download/<%= book.id %>">
-                    <p class="card-text">Файл: <%= book.fileBook %></p>
-                  </a> 
-                <% } %> 
-                <% if (!book.fileBook) { %>
-                    <p class="card-text">Файл: отсутствует</p>
-                  <% } %> 
-                <div class="text-right">
-                    <a class="btn btn-sm btn-primary" href="/api/books/update/<%= book.id %>">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                    <form action="/api/books/delete/<%= book.id %>" method="POST" class="d-inline">
-                        <button class="btn btn-sm btn-danger">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </button>
-                    </form>
+                        <h5 class="card-title">
+                            <%= book.title %>
+                        </h5>
+                        <p class="card-text">Описание: <%= book.description %>
+                        </p>
+                        <p class="card-text">Автор: <%= book.authors %>
+                        </p>
+                        <p>favorite: <%= book.favorite ? 'true' : 'false' %>
+                        </p>
+
+                        <% if (book.fileCover) { %>
+                            <a href="/api/books/download/<%= book._id %>">
+                                <p class="card-text">Файл: <%- book.fileName %>
+                                </p>
+                            </a>
+                            <% } %>
+                                <% if (!book.fileCover) { %>
+                                    <p class="card-text">Файл: отсутствует</p>
+                                    <% } %>
+                                        <div class="text-right">
+                                            <a class="btn btn-sm btn-primary" href="/api/books/update/<%= book._id %>">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                            <form action="/api/books/delete/<%= book._id %>" method="POST"
+                                                class="d-inline">
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+
+                    </div>
                 </div>
-
             </div>
         </div>
-    </div>
-</div>
 
-<%- include('../port/layout-end') %>
+        <%- include('../port/layout-end') %>

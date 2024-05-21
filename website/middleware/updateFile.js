@@ -1,23 +1,23 @@
-const multer = require('multer');
-const path = require('path');
+// const axios = require('axios');
+// const FormData = require('form-data');
+// const fs = require('fs');
 
-function dynamicDestination(req, file, cb) {
-  let dynamicPath = 'public';
-  if (file.mimetype === 'text/plain') {
-    dynamicPath = 'public/txt';
-  } else if (file.mimetype === 'application/pdf') {
-    dynamicPath = 'public/pdf';
-  };
+// function dynamicDestination(req, file, cb) {
+//   const formData = new FormData();
+//   const fileStream = fs.createReadStream(file.path);
+  
+//   formData.append('file', fileStream, file.originalname);
+//   axios.post('http://collection:5001/upload', formData, {
+//     headers: formData.getHeaders()
+//   })
+//   .then(response => {
+//     console.log(response.data);
+//     cb(null, 'public');
+//   })
+//   .catch(error => {
+//     console.error('Ошибка при загрузке файла:', error);
+//     cb(error, null);
+//   });
+// };
 
-  cb(null, dynamicPath);
-};
-
-const storage = multer.diskStorage({
-  destination: dynamicDestination,
-  filename(req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}${ext}`);
-  }
-});
-
-module.exports = multer({ storage });
+// module.exports = dynamicDestination;

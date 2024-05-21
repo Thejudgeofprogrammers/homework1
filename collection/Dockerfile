@@ -1,18 +1,14 @@
 FROM node:20.11-alpine
 
-WORKDIR /app/container1
+WORKDIR /app/container3
 
 COPY ./package*.json ./
 RUN npm install
 
 COPY ./public ./public
-COPY ./routes ./routes
-COPY ./views ./views
-COPY ./models ./models
 COPY ./middleware ./middleware
+COPY ./router ./router
 COPY ./logs ./logs
-COPY ./temp ./temp
-COPY ./downloads ./downloads
 
 COPY ./server.js ./
 
