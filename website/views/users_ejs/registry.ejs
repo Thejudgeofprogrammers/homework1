@@ -1,0 +1,19 @@
+<%- include('../port/layout-start', {title: title}) %>
+<%- include('../port/menu') %>
+
+<h1><%= title %></h1>
+
+<form id="registryForm" class="form_reg" action="/api/users/registry" method="post">
+    <label class="login_form">Логин:</label>
+    <input class="input_form" type="text" name="username" />
+    <label class="login_form">Имя на сайте:</label>
+    <input class="input_form" type="text" name="displayName" />
+    <label class="login_form">Пароль:</label>
+    <input class="input_form" type="password" name="password" />
+    <label class="login_form">Email:</label>
+    <input class="input_form" type="email" name="email" />
+    <input class="button_form" type="submit" value="Зарегистрироваться" />
+</form>
+
+<script src="../../public/javascript/index.js"></script>
+<%- include('../port/layout-end') %>
