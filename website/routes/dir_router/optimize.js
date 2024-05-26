@@ -1,58 +1,5 @@
 const axios = require('axios');
 
-// async function createSuffix(title, collection) {
-//   if (!title || title.length === 0) return;
-//   let suffix = 0;
-//   let newTitle = title;
-//   let existingBook = await collection.findOne({ title: newTitle });
-//   while (existingBook) {
-//     suffix++;
-//     newTitle = `${title} _ ${suffix}`;
-//     existingBook = await collection.findOne({ title: newTitle });
-//   };
-//   return newTitle;
-// };
-
-// async function uploadFileToServer(file, encodedFileName) {
-//   const formData = new FormData();
-//   const fileStream = fs.createReadStream(file.path);
-//   formData.append('file', fileStream, encodedFileName);
-//   try {
-//     const response = await axios.post('http://collection:5001/upload', formData, {
-//       headers: {
-//         ...formData.getHeaders()
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Ошибка загрузки файла на сервер:', error);
-//   };
-// };
-
-
-// async function downloadFile(id) {
-//   console.log(id, 'File cover in downloadFile function');
-//   try {
-//     // Запрос на получение файла по ID
-//     const response = await axios.get(`http://collection:5001/get/${id}`, {
-//       responseType: 'stream',
-//     });
-
-//     const downloadPath = path.join(__dirname, '..', '..', '/downloads', id);
-//     const writer = fs.createWriteStream(downloadPath);
-
-//     response.data.pipe(writer);
-
-//     return new Promise((resolve, reject) => {
-//       writer.on('finish', () => resolve(downloadPath));
-//       writer.on('error', reject);
-//     });
-//   } catch (error) {
-//     console.error('Ошибка при загрузке файла:', error);
-//     throw error;
-//   }
-// };
-
 async function deleteRedisKeyValue(id) {
   try {
     await axios.post(`http://counter:4000/counter/delete/${id}`);

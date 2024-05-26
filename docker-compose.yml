@@ -11,11 +11,6 @@ services:
     command: npm run start
     depends_on:
       - mongodb
-  # collection:
-  #   build: ./collection
-  #   ports:
-  #     - "5001:5001"
-  #   command: npm run start
 
   redis:
     image: redis:latest

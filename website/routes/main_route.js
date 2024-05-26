@@ -14,7 +14,7 @@ route.get('/', authenticate, async (req, res) => {
     const books = await bookService.extractDate(booksWithoutCounter);
     res.render('books/index', { title: 'Book', books });
   } catch (err) {
-    console.error('Тут что угодно может пойти не так, Redis mongo', err);
+    console.error('Книги не найдены', err);
   };
 });
 
@@ -31,7 +31,7 @@ route.get('/get/:id', authenticate, async (req, res) => {
 
     res.render('books/view', { title: "Book | view", book });
   } catch (err) {
-    console.error('Тут не найдена книга по id, либо redis либо mongo', err);
+    console.error('Книга по id не найдена', err);
   };
 });
 
@@ -48,7 +48,7 @@ route.get('/create', (req, res) => {
     }
   });
 });
-//authenticate
+
 route.post('/create', authenticate, fileMulter.single('cover'), async (req, res) => {
   try {
     const { title, description, authors, favorite } = req.body;
@@ -85,7 +85,7 @@ route.post('/create', authenticate, fileMulter.single('cover'), async (req, res)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Произошла ошибка при сохранении книги' });
-  }
+  };
 });
 
 route.get('/update/:id', authenticate, async (req, res) => {
@@ -103,6 +103,10 @@ route.post('/update/:id', authenticate, fileMulter.single('cover'), async (req, 
       pathFile = req.file.filename;
     };
 
+    if (!req.body.title) {
+      return res.redirect('/api/books');
+    };
+
     const updateData = {
       title: req.body.title,
       description: req.body.description,
@@ -113,35 +117,36 @@ route.post('/update/:id', authenticate, fileMulter.single('cover'), async (req, 
     if (req.file) {
       updateData.fileName = req.file.originalname;
       updateData.fileCover = pathFile;
-    }
+    };
 
     const updatedBook = await Book.findByIdAndUpdate(req.params.id, updateData, { new: true }).select('-__v');
 
     if (!updatedBook) {
-      return res.status(404).send('Book not found');
-    }
+      return res.status(404).send('Книга не найдена');
+    };
 
     res.redirect('/api/books');
   } catch (err) {
-    console.error("ERROR UPDATE", err);
-    res.status(500).send('Internal Server Error');
-  }
+    console.error("Ошибка обновления", err);
+    res.status(500).send('Ошибка сервера');
+  };
 });
 
 route.get('/download/:id', authenticate, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    const { fileCover } = book;
+    const { fileCover, fileName } = book;
     const lastPath = path.join(__dirname, '..', 'public', fileCover);
-    res.download(lastPath, book.fileName, (err) => {
+
+    res.download(lastPath, fileName, (err) => {
       if (err) {
-        console.error('Error downloading file:', err);
-        res.status(500).send('Error downloading file');
+        console.error('Ошибка скачивания', err);
+        res.status(500).send('Ошибка скачивания');
       }
     });
   } catch (err) {
-    console.error('Error downloading file:', err);
-    res.status(500).send('Error downloading file');
+    console.error('Ошибка скачивания', err);
+    res.status(500).send('Ошибка скачивания');
   }
 });
 

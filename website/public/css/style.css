@@ -2,14 +2,8 @@
   display: flex;
   flex-direction: column;
   width: 30%;
-
 }
-.login_form{
 
-}
-.input_form{
-
-}
 .button_form{
   margin-top: 8px;
 }
