@@ -82,8 +82,24 @@ async function extractDate(arr) {
   };
 };
 
+async function addBookToUser(userId, bookData) {
+  try {
+    const book = new Book(bookData);
+    await book.save();
+
+    const user = await User.findById(userId);
+    user.books.push(book._id);
+    await user.save();
+
+    console.log('Книга добавлена пользователю:', user);
+  } catch (error) {
+    console.error('Ошибка при добавлении книги:', error);
+  }
+};
+
 module.exports = {
   deleteRedisKeyValue,
   sendReq,
-  extractDate
+  extractDate,
+  addBookToUser
 };

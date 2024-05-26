@@ -6,10 +6,11 @@ services:
     container_name: website-website-1
     ports:
       - "3030:3000"
+    environment:
+      - SESSION_SECRET=CF3ADFF027D32DE62ABCD2E403AC3430AE3EA15D6798B79B24CCF40F4EBF8F27881978CF638624A211FBB1D120108A17D9066C5591B2BDCB41BBC61EE54765AD
     command: npm run start
     depends_on:
       - mongodb
-  
   # collection:
   #   build: ./collection
   #   ports:

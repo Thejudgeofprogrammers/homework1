@@ -11,7 +11,6 @@ COPY ./views ./views
 COPY ./models ./models
 COPY ./middleware ./middleware
 COPY ./logs ./logs
-COPY ./temp ./temp
 COPY ./downloads ./downloads
 COPY ./database ./database
 

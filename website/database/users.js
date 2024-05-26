@@ -4,14 +4,16 @@ const records = [
       username: 'user',
       password: '123',
       displayName: 'demo user',
-      emails: [ {value: 'user@mail.ru'} ]
+      emails: [ {value: 'user@mail.ru'} ],
+      data: []
   }, 
   {
       id: 2,
       username: 'oleg',
       password: 'qwerty',
       displayName: 'olegGgG',
-      emails: [ {value: 'oleg@mail.ru'} ]
+      emails: [ {value: 'oleg@mail.ru'} ],
+      data: []
   }
 ];
 
