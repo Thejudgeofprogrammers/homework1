@@ -47,6 +47,13 @@
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </form>
+                                <% if (!el.isPublished && el.owner.toString() === user._id.toString()) { %>
+                                    <form action="/api/books/publish/<%= el._id %>" method="POST" class="d-inline">
+                                        <button class="btn btn-sm btn-danger">
+                                            Publish
+                                        </button>
+                                    </form>
+                                <% } %>
                             </td>
                         </tr>
                         <% }) %>

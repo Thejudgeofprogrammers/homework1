@@ -14,9 +14,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/books">Книги</a>
-            </li>
             <% if (!user) { %>
             <li class="nav-item">
                 <a class="nav-link" href="/api/users">Войти</a>
@@ -26,9 +23,15 @@
             </li>
             <% } else { %>
             <li class="nav-item">
+                <a class="nav-link" href="/api/books">Книги</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/api/users/profile">Профиль</a>
             </li>
             <% } %>
+            <li class="nav-item active">
+                <a class="nav-link" href="/api/books/publish">Публикации <span class="sr-only">(current)</span></a>
+            </li>
         </ul>
     </div>
   </nav>

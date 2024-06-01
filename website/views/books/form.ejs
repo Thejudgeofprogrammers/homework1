@@ -27,3 +27,12 @@
     <button type="submit" class="btn btn-primary">Сохранить</button>
   </div>
 </form>
+
+<script>
+  document.getElementById('publishBtn').addEventListener('click', function() {
+    const form = document.getElementById('bookForm');
+    form.action = '/api/books/publish/<%= book._id %>';
+    form.method = 'POST';
+    form.submit();
+  });
+</script>

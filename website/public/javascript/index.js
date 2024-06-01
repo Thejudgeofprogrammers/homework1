@@ -1,3 +1,4 @@
+// Проверка на совпадение Логина и почты при создании аккаунта
 document.getElementById('registryForm').addEventListener('submit', function(event) {
   event.preventDefault();
   const formData = new FormData(this);
@@ -20,7 +21,7 @@ document.getElementById('registryForm').addEventListener('submit', function(even
           alert('User already exists!');
       } else {
           window.location.href = '/api/users/login';
-      }
+      };
   })
   .catch(error => {
       console.error('Error:', error);

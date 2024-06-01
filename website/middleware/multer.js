@@ -4,7 +4,7 @@ const path = require('path');
 function dynamicDestination(req, file, cb) {
   const dynamicPath = path.join(__dirname, '..', 'public');
   cb(null, dynamicPath);
-}
+};
 
 const storage = multer.diskStorage({
   destination: dynamicDestination,

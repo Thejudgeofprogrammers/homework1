@@ -1,0 +1,112 @@
+<%- include('../port/layout-start', {title: title}) %>
+    <%- include('../port/menu') %>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            <%= book.title %>
+                        </h5>
+                        <p class="card-text">Описание: <%= book.description %>
+                        </p>
+                        <p class="card-text">Автор: <%= book.authors %>
+                        </p>
+                        <p>favorite: <%= book.favorite ? 'true' : 'false' %>
+                        </p>
+
+                        <% if (book.fileCover) { %>
+                            <a href="/api/books/download/<%= book._id %>">
+                                <p class="card-text">Файл: <%- book.fileName %>
+                                </p>
+                            </a>
+                            <% } %>
+                                <% if (!book.fileCover) { %>
+                                    <p class="card-text">Файл: отсутствует</p>
+                                    <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-4">
+                    <div id="list" class="list-group">
+        
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="text">message</label>
+                        <textarea
+                                placeholder="message"
+                                class="form-control"
+                                id="text"
+                        ></textarea>
+                    </div>
+                    <button type="submit" id="send-room" class="btn btn-primary">Отправить</button>
+                </div>
+            </div>
+        
+        <script>
+            const dispName = "<%= dispName %>"
+            
+            const roomName = location.pathname.split('/').pop();
+            const socket = io({ query: `roomName=${roomName}` });
+        
+            const boxList       = document.querySelector('#list');
+            const inputText     = document.querySelector('#text');
+            const sendRoom      = document.querySelector('#send-room');
+        
+            const formatTime = (timestamp) => {
+                const date = new Date(timestamp);
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                return `${hours}:${minutes}`;
+            };
+        
+            const getTmp = (msg) => {
+                return `
+                        <div class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <small>${msg.username}</small>
+                            </div>
+                            <p class="mb-1">${msg.text}</p>
+                            <p style="font-size: 10px;">${formatTime(msg.date)}</p>
+                        </div>
+                `;
+            };
+
+            sendRoom.addEventListener('click', () => {
+                const text = inputText.value.trim();
+                if (text) {
+                    socket.emit('message-to-room', {
+                        username: dispName,
+                        text: text,
+                    });
+                    inputText.value = '';
+                } else {
+                    alert('Сообщение не может быть пустым');
+                }
+            });
+            
+            socket.on('load-messages', (messages) => {
+                messages.forEach(msg => {
+                    const div = getTmp(msg);
+                    boxList.insertAdjacentHTML('beforeend', div);
+                });
+            });
+            
+            socket.on('message-to-room', (msg) => {
+                const div = getTmp(msg);
+                boxList.insertAdjacentHTML('beforeend', div);
+            });    
+        </script>
+        <%- include('../port/layout-end') %>
