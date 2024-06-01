@@ -2,7 +2,7 @@ const multer = require('multer');
 const path = require('path');
 
 function dynamicDestination(req, file, cb) {
-  const dynamicPath = path.join(__dirname, '..', 'public');
+  const dynamicPath = path.join(__dirname, '..', 'public', 'uploads');
   cb(null, dynamicPath);
 };
 

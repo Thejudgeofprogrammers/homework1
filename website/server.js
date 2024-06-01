@@ -90,6 +90,7 @@ app.use('/', mainRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/users', usersRouter);
 
+// Чат у книги
 io.on('connection', (socket) => {
     const { id } = socket;
     console.log(`Socket connected: ${id}`);

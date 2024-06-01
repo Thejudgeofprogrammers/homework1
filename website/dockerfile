@@ -13,6 +13,8 @@ COPY ./middleware ./middleware
 COPY ./logs ./logs
 COPY ./downloads ./downloads
 
+RUN mkdir -p public/uploads
+
 COPY ./server.js ./
 
 CMD ["node","server.js"]

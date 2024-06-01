@@ -11,6 +11,8 @@ services:
     command: npm run start
     depends_on:
       - mongodb
+    volumes:
+      - uploaded_files:/app/container1/public/uploads
 
   redis:
     image: redis:latest
@@ -42,4 +44,6 @@ services:
 
 volumes:
   mongodb_data:
+    driver: local
+  uploaded_files:
     driver: local

@@ -149,7 +149,7 @@ route.get('/download/:id', authenticate, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     const { fileCover, fileName } = book;
-    const lastPath = path.join(__dirname, '..', 'public', fileCover);
+    const lastPath = path.join(__dirname, '..', 'public', 'uploads', fileCover);
 
     res.download(lastPath, fileName, (err) => {
       if (err) {
@@ -168,23 +168,25 @@ route.post('/delete/:id', authenticate, async (req, res) => {
   try {
     await Book.findByIdAndDelete(req.params.id).select('-__v');
     await Comment.deleteMany({ bookId: req.params.id });
-    await bookService.deleteRedisKeyValue(req.params.id)
+    await bookService.deleteRedisKeyValue(req.params.id);
     res.redirect('/api/books');
   } catch (err) {
     console.error('Ошибка удаления', err);
   };
 });
 
+// Рендер страницы публикаций
 route.get('/publish', async (req, res) => {
   try {
     const booksWithoutCounter = await Book.find({ isPublished: true }).select('-__v');
     const books = await bookService.extractDate(booksWithoutCounter);
-    res.render('books/publish', { title: 'Published Books', currentPage: '/api/books/publish', books });
+    res.render('books/index', { title: 'Published Books', currentPage: '/api/books/publish', books });
   } catch (err) {
     console.error('Опубликованные книги не найдены', err);
   }
 });
 
+// Рендер страницы публикации книги по id
 route.get('/publish/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).select('-__v');
@@ -192,52 +194,43 @@ route.get('/publish/:id', async (req, res) => {
 
     if (!book) return res.redirect('/404');
 
-    console.log('Book data:', book);
-
     if (!book.isPublished) {
-      console.log('Book is not published');
       return res.status(403).send('Эта книга не опубликована.');
-    }
+    };
 
-    res.render('books/publish_id', { title: "Published Book | View", currentPage: '/api/books/publish/:id', book, dispName: req.user.displayName });
+    res.render('books/view', { title: "Published Book | View", currentPage: '/api/books/publish/:id', book, dispName: req.user.displayName });
   } catch (err) {
     console.error('Опубликованная книга по id не найдена', err);
   };
 });
 
+// Публикация книги для всех пользователей
 route.post('/publish/:id', authenticate, async (req, res) => {
   try {
     const bookId = req.params.id;
-    console.log(`Request to publish book with id: ${bookId}`);
     
     const book = await Book.findById(bookId);
     if (!book) {
       console.error('Book not found');
       return res.status(404).send('Книга не найдена');
-    }
-
-    console.log('Book found:', book);
+    };
 
     if (book.owner.toString() !== req.user._id.toString()) {
-      console.error('Access denied. This book does not belong to you.');
+      console.error('Доступ запрещён');
       return res.status(403).send('Доступ запрещен. Эта книга не принадлежит вам.');
     };
 
     // Обновление статуса публикации
     book.isPublished = true;
-    console.log('Book before saving:', book);
 
-    // Сохранение изменений
-    const savedBook = await book.save();
-    console.log('Book after saving:', savedBook);
+    await book.save();
 
     // Проверка, что книга действительно была обновлена
-    const updatedBook = await Book.findById(bookId);
-    console.log('Updated book data:', updatedBook);
+    await Book.findById(bookId);
 
     res.redirect(`/api/books/publish`);
   } catch (err) {
-    console.error('Error publishing book', err);
+    console.error('Error книга не опубликована', err);
     res.status(500).send('Ошибка сервера');
   }
 });
