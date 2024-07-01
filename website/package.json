@@ -2,10 +2,18 @@
   "name": "website",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./src/server.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon -L"
+    "dev": "npx nodemon",
+    "build": "rimraf ./build && npx tsc",
+    "start": "npm run build && node build/main",
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix"
   },
   "keywords": [],
   "author": "",

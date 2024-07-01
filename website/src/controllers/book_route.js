@@ -5,7 +5,7 @@ const path = require('path');
 const bookService = require('./axios_data');
 
 // Middleware
-const { fileMulter, authenticate } = require('../middleware');
+const { fileMulter, authenticate } = require('../middlewares');
 
 // Models
 const { Book, User, Comment } = require('../models');
@@ -29,7 +29,7 @@ route.get('/get/:id', authenticate, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).select('-__v');
     await bookService.sendReq(book);
-    
+
     if (!book) res.redirect('/404');
 
     if (book.owner.toString() !== req.user._id.toString() && !book.isPublished) {
@@ -66,7 +66,7 @@ route.post('/create', authenticate, fileMulter.single('cover'), async (req, res)
     if (!userId) {
       return res.status(401).json({ message: 'Вы не вошли в аккаунт' })
     };
-    
+
     let pathFile = '';
     let fileName = '';
     if (req.file) {
@@ -86,7 +86,7 @@ route.post('/create', authenticate, fileMulter.single('cover'), async (req, res)
 
     const book = new Book(bookData);
     await book.save();
-    
+
     const user = await User.findById(userId);
     user.books.push(book._id);
     await user.save();
@@ -208,7 +208,7 @@ route.get('/publish/:id', async (req, res) => {
 route.post('/publish/:id', authenticate, async (req, res) => {
   try {
     const bookId = req.params.id;
-    
+
     const book = await Book.findById(bookId);
     if (!book) {
       console.error('Book not found');

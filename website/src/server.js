@@ -11,10 +11,10 @@ const sharedSession = require('socket.io-express-session');
 const http = require('http');
 
 // Middleware
-const { logger, get_user, noCache } = require('./middleware');
+const { logger, get_user, noCache } = require('./middlewares');
 
 // Routes
-const { mainRouter, bookRouter, usersRouter } = require('./routes');
+const { mainRouter, bookRouter, usersRouter } = require('./controllers');
 
 // Model
 const { User, Comment } = require('./models');
@@ -74,11 +74,11 @@ passport.deserializeUser(async (id, done) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-app.use( '/public', express.static(__dirname + '/public') );
+app.use('/public', express.static(__dirname + '/public'));
 
 app.use(sessionMiddleware);
-app.use( passport.initialize() );
-app.use( passport.session() );
+app.use(passport.initialize());
+app.use(passport.session());
 
 // подключение Middleware
 app.use(logger);
@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
             socket.emit('load-messages', messages);
         })
         .catch(err => console.error(err));
-        
+
     const createComment = (msg, bookId) => {
         if (!msg.text) {
             throw new Error('Text is required');
