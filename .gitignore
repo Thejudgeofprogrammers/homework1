@@ -1,0 +1,4 @@
+/website/node_modules
+/counter/node_modules
+/init-mongo.js
+/website/.env

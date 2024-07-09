@@ -1,3 +1,5 @@
+console.clear()
+require('dotenv').config();
 // Библиотеки
 const express = require('express');
 const session = require('express-session');
@@ -9,6 +11,7 @@ const bcrypt = require('bcrypt');
 const socketIO = require('socket.io');
 const sharedSession = require('socket.io-express-session');
 const http = require('http');
+const path = require('path');
 
 // Middleware
 const { logger, get_user, noCache } = require('./middlewares');
@@ -73,8 +76,9 @@ passport.deserializeUser(async (id, done) => {
 // Настройка кодировок и папок для хранения файлов
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
-app.use('/public', express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
+app.set('views', path.resolve(__dirname, '..', 'views'));
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 app.use(sessionMiddleware);
 app.use(passport.initialize());

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
 
   website:
@@ -8,11 +8,11 @@ services:
       - "3030:3000"
     environment:
       - SESSION_SECRET=CF3ADFF027D32DE62ABCD2E403AC3430AE3EA15D6798B79B24CCF40F4EBF8F27881978CF638624A211FBB1D120108A17D9066C5591B2BDCB41BBC61EE54765AD
-    command: npm run start
     depends_on:
       - mongodb
     volumes:
       - uploaded_files:/app/container1/public/uploads
+    command: sh -c "while [ ! -d /app/container1/views ]; do sleep 1; done; node src/server.js"
 
   redis:
     image: redis:latest

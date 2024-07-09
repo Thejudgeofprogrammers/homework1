@@ -149,7 +149,7 @@ route.get('/download/:id', authenticate, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     const { fileCover, fileName } = book;
-    const lastPath = path.join(__dirname, '..', 'public', 'uploads', fileCover);
+    const lastPath = path.join(__dirname, '..', '..', 'public', 'uploads', fileCover);
 
     res.download(lastPath, fileName, (err) => {
       if (err) {

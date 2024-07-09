@@ -2,19 +2,16 @@ FROM node:20.11-alpine
 
 WORKDIR /app/container1
 
-COPY ./package*.json ./
+COPY ./**.json ./
+
 RUN npm install
 
+COPY ./src ./src
 COPY ./public ./public
-COPY ./routes ./routes
-COPY ./views ./views
-COPY ./models ./models
-COPY ./middleware ./middleware
 COPY ./logs ./logs
 COPY ./downloads ./downloads
+COPY ./views ./views
 
 RUN mkdir -p public/uploads
 
-COPY ./server.js ./
-
-CMD ["node","server.js"]
+CMD ["node","src/server.js"]

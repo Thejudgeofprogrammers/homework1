@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const way = path.join(__dirname, '../logs', 'server.log')
+const way = path.join(__dirname, '../../logs', 'server.log')
 
 module.exports = (req, res, next) => {
   const now = Date.now();
