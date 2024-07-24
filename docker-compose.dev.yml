@@ -1,19 +1,6 @@
 version: '3'
 services:
 
-  website:
-    build: ./website
-    container_name: website-website-1
-    ports:
-      - "4050:4040"
-    command: npm run start
-    depends_on:
-      - mongodb
-    env_file:
-      - ./website/.env
-    volumes:
-      - uploaded_files:/app/container1/public/uploads
-
   redis:
     image: redis:latest
     ports:
@@ -21,16 +8,6 @@ services:
     volumes:
       - /path/to/local/data:/root/redis
       - /path/to/local/redis.conf:/usr/local/etc/redis/redis.conf
-
-  counter:
-    build: ./counter
-    ports:
-      - "4000:4000"
-    environment:
-      - REDIS_URL=redis://redis
-    command: npm run start
-    depends_on:
-      - redis
 
   mongodb:
     image: mongo
@@ -44,6 +21,4 @@ services:
 
 volumes:
   mongodb_data:
-    driver: local
-  uploaded_files:
     driver: local

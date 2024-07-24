@@ -1,7 +1,6 @@
 const express = require('express');
 const route = express.Router();
 const { handlerCounterRequest, deleteKeyValue } = require('./optimize/functions');
-
 route.use(express.json());
 
 module.exports = (client) => {
@@ -15,7 +14,7 @@ module.exports = (client) => {
 
   route.post("/counter/delete/:id", async (req, res) => {
     await deleteKeyValue(req, res, client.del.bind(client));
-    res.redirect("http://website:3000/api/books");
+    res.redirect("http://website:4040/api/books");
   });
 
   return route;
