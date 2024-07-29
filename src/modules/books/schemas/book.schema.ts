@@ -3,7 +3,6 @@ import { Document, Schema as MongooseSchema } from "mongoose";
 
 import { User } from "../../user/schemas/user.schema";
 
-
 export type BookDocument = Book & Document;
 
 @Schema()

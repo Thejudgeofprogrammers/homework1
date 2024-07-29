@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { BookDTO } from './dto/book.dto';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
 import { Book, BookDocument } from 'src/modules/books/schemas/book.schema';
 
 @Injectable()
 export class BooksService {
     constructor(
         @InjectModel(Book.name) private readonly bookModel: Model<BookDocument>,
-        @InjectConnection() private connection: Connection
-    ) { }
+    ) {};
     async getBook(id: string): Promise<BookDTO> {
         try {
-            const book = await this.bookModel.findById(id).select('-__v').exec();
+            const book = await this.bookModel.findById(new Types.ObjectId(id)).select('-__v').exec();
             if (!book) throw new Error('Book not found');
             return book.toObject() as BookDTO;
         } catch (err) {
@@ -21,31 +20,34 @@ export class BooksService {
     };
     async getAllBooks(userId: string): Promise<BookDTO[]> {
         try {
-            const books = await this.bookModel.find({ owner: userId }).select('-__v').exec();
+            const books = await this.bookModel.find({ owner: new Types.ObjectId(userId) }).select('-__v').exec();
             return books.map(book => book.toObject() as BookDTO);
         } catch (err) {
             console.error('Книга не найдена', err);
         };
     };
-    async createBook(data: BookDTO): Promise<void> {
+    async createBook(createBookDto: BookDTO): Promise<Book> {
         try {
-            const newBook = new this.bookModel(data);
-            await newBook.save();
+            createBookDto.owner = new Types.ObjectId(createBookDto.owner);
+            const newBook = new this.bookModel(createBookDto);
+            return await newBook.save();
         } catch (err) {
             console.error('Книга не создана', err);
         };
     };
-    async updateBook(id: string, updateData: BookDTO): Promise<void> {
+    async updateBook(id: string, updateData: BookDTO): Promise<Book> {
         try {
-            const updatedBook = await this.bookModel.findByIdAndUpdate(id, updateData, { new: true }).select('-__v').exec();
-            if (!updatedBook) throw new Error('Book not updated');
+            if (updateData.owner) {
+                updateData.owner = new Types.ObjectId(updateData.owner);
+            };
+            return await this.bookModel.findByIdAndUpdate(new Types.ObjectId(id), updateData, { new: true }).select('-__v').exec();
         } catch (err) {
             console.error('Книга не создана', err);
         };
     };
-    async deleteBook(id: string): Promise<void> {
+    async deleteBook(id: string): Promise<Book> {
         try {
-            await this.bookModel.findByIdAndDelete(id).select('-__v').exec();
+            return await this.bookModel.findByIdAndDelete(new Types.ObjectId(id)).select('-__v').exec();
         } catch (err) {
             console.error(err);
         };

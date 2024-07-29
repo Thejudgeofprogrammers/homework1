@@ -1,4 +1,5 @@
 import { IsBoolean, IsNumber, IsString } from "class-validator";
+import { Schema, Types } from "mongoose";
 
 export class BookDTO {
     @IsString()
@@ -22,8 +23,7 @@ export class BookDTO {
     @IsString()
     fileName: string;
 
-    @IsString()
-    owner: string;
+    owner: Types.ObjectId;
 
     @IsBoolean()
     isPublished: boolean;
