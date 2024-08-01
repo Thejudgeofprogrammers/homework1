@@ -6,6 +6,7 @@ import { BooksModule } from '../books/books.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { authMiddleware } from 'src/middleware/auth.middleware';
+import { TestController } from '../test/test.controller';
 
 @Module({
   imports: [BooksModule,
@@ -16,7 +17,7 @@ import { authMiddleware } from 'src/middleware/auth.middleware';
     //   synchronize: true
     // })
   ],
-  controllers: [AppController],
+  controllers: [AppController, TestController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
