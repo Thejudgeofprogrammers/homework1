@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Req, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Req, Res, HttpStatus, UseGuards } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { BookDTO } from './dto/book.dto';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
+import { JwtAuthGuard } from 'src/guards/jwt-guard';
 
 @Controller('api/books')
 export class BooksController {
     constructor(private readonly booksService: BooksService) {}
     
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     async getBook(@Param('id') id: string, @Req() req: Request, @Res() res: Response): Promise<void>  {
         try {
@@ -18,8 +20,9 @@ export class BooksController {
         };
     };
 
+    @UseGuards(JwtAuthGuard)
     @Get()
-    async getAllBooks(@Req() req: Request, @Res() res: Response): Promise<void>  {
+    async getAllBooks(@Req() req, @Res() res: Response): Promise<void>  {
         try {
             const userId = req.user?._id;
             if (!userId) {
@@ -33,8 +36,9 @@ export class BooksController {
         };
     };
 
+    @UseGuards(JwtAuthGuard)
     @Post()
-    async createBook(@Body() createBookDto: BookDTO, @Req() req: Request, @Res() res: Response): Promise<void> {
+    async createBook(@Body() createBookDto: BookDTO, @Req() req, @Res() res: Response): Promise<void> {
         try {
             const userId = req.user?._id;
             if (!userId) {
@@ -49,6 +53,7 @@ export class BooksController {
         };
     };
 
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     async updateBook(@Param('id') id: string, @Body() updateBookDto: BookDTO, @Req() req: Request, @Res() res: Response): Promise<void> {
         try {
@@ -62,6 +67,7 @@ export class BooksController {
         };
     };
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteBook(@Param('id') id: string, @Req() req: Request, @Res() res: Response): Promise<void> {
         try {

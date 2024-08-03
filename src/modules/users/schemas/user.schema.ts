@@ -18,18 +18,12 @@ export class User {
     firstName: string;
 
     @Prop({
-        type: [{
-            value: {
-                type: String,
-                required: true
-            }
-        }],
-        default: []
+        default: ""
     })
-    emails: { value: string }[];
+    email: string;
 
-    @Prop({ required: true, type: MongooseSchema.Types.ObjectId, ref: 'Book' })
-    books: Book;
+    @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Book' }] })
+    books: MongooseSchema.Types.ObjectId[];
 
 };
 

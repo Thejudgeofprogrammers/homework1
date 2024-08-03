@@ -4,7 +4,7 @@ declare global {
     namespace Express {
         interface User extends BookDTO {};
         interface Request {
-            user?: UserID 
+            user?: UserID
         };
     };
 };

@@ -1,29 +1,32 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BooksModule } from '../books/books.module';
-// import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { authMiddleware } from 'src/middleware/auth.middleware';
-import { TestController } from '../test/test.controller';
+import configurations from 'src/configurations';
+import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth/auth.module';
+import { TokenModule } from '../token/token.module';
+import { MiddlewareConsumer } from '@nestjs/common/interfaces';
+import { loggerMiddleware } from 'src/middleware/logger.middleware';
 
 @Module({
   imports: [BooksModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configurations]
+    }),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
-    // TypeOrmModule.forRoot({
-    //   entities: [],
-    //   synchronize: true
-    // })
+    UsersModule, AuthModule, TokenModule
   ],
-  controllers: [AppController, TestController],
+  controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
+export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(authMiddleware)
-      .forRoutes('*');
+      .apply(loggerMiddleware)
+      .forRoutes('*')
   }
-}
+};

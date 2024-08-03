@@ -3,7 +3,7 @@ import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from 'src/modules/books/schemas/book.schema';
-import { User, UserSchema } from '../user/schemas/user.schema'; 
+import { User, UserSchema } from '../users/schemas/user.schema'; 
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -15,4 +15,4 @@ import { User, UserSchema } from '../user/schemas/user.schema';
   controllers: [BooksController],
   providers: [BooksService],
 })
-export class BooksModule { }
+export class BooksModule {};

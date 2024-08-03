@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Schema as MongooseSchema } from "mongoose";
 
-import { User } from "../../user/schemas/user.schema";
-
 export type BookDocument = Book & Document;
 
 @Schema()
@@ -26,8 +24,8 @@ export class Book {
     @Prop({ default: "" })
     fileName: string;
 
-    @Prop({ required: true, type: MongooseSchema.Types.ObjectId, ref: 'User' })
-    owner: User;
+    @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+    owner: MongooseSchema.Types.ObjectId;
 
     @Prop({ default: false })
     isPublished: boolean;
