@@ -4,7 +4,7 @@ import { UserLoginDTO } from './dto';
 import { UsersService } from '../users/users.service';
 import { TokenService } from '../token/token.service';
 import { AuthUserResponse } from './Response';
-import { AppError } from 'src/common/constants/errors';
+import { AppError } from '../../common/constants/errors';
 import * as bcrypt from "bcrypt";
 
 @Injectable()

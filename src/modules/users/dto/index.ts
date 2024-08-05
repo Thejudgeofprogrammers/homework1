@@ -12,7 +12,6 @@ export class CreateUserDTO {
 
     @IsString()
     email: string;
-
 };
 
 export class UpdateUserDTO {

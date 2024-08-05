@@ -1,33 +1,38 @@
-import { IsBoolean, IsNumber, IsString } from "class-validator";
-import { Schema, Types } from "mongoose";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { Types } from "mongoose";
 
 export class BookDTO {
     @IsString()
-    _id: string;
-
-    @IsString()
+    @IsNotEmpty()
     title: string;
 
     @IsString()
-    description: string;
+    @IsOptional()
+    description?: string;
 
     @IsString()
-    authors: string;
+    @IsOptional()
+    authors?: string;
 
     @IsBoolean()
-    favorite: boolean;
+    @IsOptional()
+    favorite?: boolean;
 
     @IsString()
-    fileCover: string;
+    @IsOptional()
+    fileCover?: string;
 
     @IsString()
-    fileName: string;
+    @IsOptional()
+    fileName?: string;
 
     owner: Types.ObjectId;
 
     @IsBoolean()
-    isPublished: boolean;
+    @IsOptional()
+    isPublished?: boolean;
 
     @IsNumber()
-    count: number;
+    @IsOptional()
+    count?: number;
 };

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BookDTO } from './dto/book.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Book, BookDocument } from 'src/modules/books/schemas/book.schema';
+import { Book, BookDocument } from './schemas/book.schema';
 
 @Injectable()
 export class BooksService {
@@ -29,7 +29,7 @@ export class BooksService {
     async createBook(createBookDto: BookDTO): Promise<Book> {
         try {
             createBookDto.owner = new Types.ObjectId(createBookDto.owner);
-            const newBook = new this.bookModel(createBookDto);
+            const newBook = await this.bookModel.create(createBookDto);
             return await newBook.save();
         } catch (err) {
             console.error('Книга не создана', err);

@@ -1,4 +1,4 @@
-import { UserID } from "src/modules/app/interfaces/user.interface.id"
+import { UserID } from "../../modules/app/interfaces/user.interface.id"
 
 declare global {
     namespace Express {

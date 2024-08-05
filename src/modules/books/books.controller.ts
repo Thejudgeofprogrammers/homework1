@@ -3,7 +3,7 @@ import { BooksService } from './books.service';
 import { BookDTO } from './dto/book.dto';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import { JwtAuthGuard } from 'src/guards/jwt-guard';
+import { JwtAuthGuard } from '../../guards/jwt-guard';
 
 @Controller('api/books')
 export class BooksController {
@@ -25,10 +25,6 @@ export class BooksController {
     async getAllBooks(@Req() req, @Res() res: Response): Promise<void>  {
         try {
             const userId = req.user?._id;
-            if (!userId) {
-                res.status(HttpStatus.UNAUTHORIZED).json({ message: 'User not authenticated' });
-                return;
-            };
             const books = await this.booksService.getAllBooks(userId);
             res.status(HttpStatus.OK).json(books);
         } catch (err) {
@@ -39,19 +35,14 @@ export class BooksController {
     @UseGuards(JwtAuthGuard)
     @Post()
     async createBook(@Body() createBookDto: BookDTO, @Req() req, @Res() res: Response): Promise<void> {
-        try {
-            const userId = req.user?._id;
-            if (!userId) {
-                res.status(HttpStatus.UNAUTHORIZED).json({ message: 'User not authenticated' });
-                return;
-            };
-            createBookDto.owner = new Types.ObjectId(userId);
-            await this.booksService.createBook(createBookDto);
-            res.status(HttpStatus.CREATED).json({ message: 'Book created successfully' });
-        } catch (err) {
-            res.status(HttpStatus.BAD_REQUEST).json({ message: err.message });
-        };
-    };
+      try {
+        createBookDto.owner = new Types.ObjectId(req.user._id);
+        const createdBook = await this.booksService.createBook(createBookDto);
+        res.status(HttpStatus.CREATED).json({ message: 'Книга успешно создана', book: createdBook });
+      } catch (err) {
+        res.status(HttpStatus.BAD_REQUEST).json({ message: err.message });
+      }
+    }
 
     @UseGuards(JwtAuthGuard)
     @Put(':id')
@@ -59,9 +50,9 @@ export class BooksController {
         try {
             if (updateBookDto.owner) {
                 updateBookDto.owner = new Types.ObjectId(updateBookDto.owner);
-            }
+            };
             await this.booksService.updateBook(id, updateBookDto);
-            res.status(HttpStatus.OK).json({ message: 'Book updated successfully' });
+            res.status(HttpStatus.OK).json({ message: 'Книга успешно обновлена' });
         } catch (err) {
             res.status(HttpStatus.BAD_REQUEST).json({ message: err.message });
         };
@@ -72,7 +63,7 @@ export class BooksController {
     async deleteBook(@Param('id') id: string, @Req() req: Request, @Res() res: Response): Promise<void> {
         try {
             await this.booksService.deleteBook(id);
-            res.status(HttpStatus.OK).json({ message: 'Book deleted successfully' });
+            res.status(HttpStatus.OK).json({ message: 'Книга успешно удалена' });
         } catch (err) {
             res.status(HttpStatus.BAD_REQUEST).json({ message: err.message });
         };
