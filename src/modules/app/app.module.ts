@@ -10,15 +10,16 @@ import { AuthModule } from '../auth/auth.module';
 import { TokenModule } from '../token/token.module';
 import { MiddlewareConsumer } from '@nestjs/common/interfaces';
 import { loggerMiddleware } from '../../middleware/logger.middleware';
+import { BookCommentsModule } from '../book.comments/book-comments.module';
 
 @Module({
-    imports: [BooksModule,
+    imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             load: [configurations]
         }),
         MongooseModule.forRoot(process.env.MONGO_CONNECTION),
-        UsersModule, AuthModule, TokenModule
+        BooksModule, BookCommentsModule, UsersModule, AuthModule, TokenModule
     ],
     controllers: [AppController],
     providers: [AppService],

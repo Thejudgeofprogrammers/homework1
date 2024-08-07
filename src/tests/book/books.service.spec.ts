@@ -1,6 +1,6 @@
 import { Model, Types } from "mongoose";
-import { BooksService } from "./books.service";
-import { Book } from "./schemas/book.schema";
+import { BooksService } from "../../modules/books/books.service";
+import { Book } from "../../modules/books/schemas/book.schema";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getModelToken } from "@nestjs/mongoose";
 
@@ -77,7 +77,6 @@ describe('BooksService', () => {
     });
     
     it('should create a new book', async () => {
-
         const createdBook = await service.createBook(mockBook as any);
         expect(createdBook).toEqual(mockBook);
     });
